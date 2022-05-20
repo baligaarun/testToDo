@@ -1,4 +1,4 @@
-package todo;
+package runners;
 
 import org.junit.platform.suite.api.ConfigurationParameter;
 import org.junit.platform.suite.api.IncludeEngines;
