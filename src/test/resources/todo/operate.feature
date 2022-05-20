@@ -1,4 +1,4 @@
-Feature: vue
+Feature: todo
 
 Scenario Outline: Create ToDo
 	Given Application is launched
