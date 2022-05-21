@@ -4,19 +4,22 @@ Test Code in Java + Cucumber + Selenium to validate a sample application ToDo fo
 
 # Unit Test Details
 Platform - Windows 10 Enterprise 64 Bit.
+
 Java - JDK 1.8
+
+Maven - 3.8.5
+
 IDE - Eclipse IDE 2022-23
+
 Browsers - Chrome (tested with version 101.0 64-Bit).
 
 Note: For now, the drivers for Chrome and Firefox were used for tests. With firefox (geckodriver), an open issue exists which impacts the edit flow of a ToDo (content is capitalized). However, no such issue is not with same code for Chrome. So, it is recommended to use Chrome.
 
 # Pre-Requisites
-1. Clone the below Git project (usign GitBash or any preferred approach):
+1. Clone the below Git project (using GitBash or any preferred approach):
 git clone https://github.com/baligaarun/testToDo.git
 
-2. Apache Maven installed. For the tests, Maven 3.8.5 were used on Windows 10 64 Bit.
-
-If no, please follow the instructions at - https://maven.apache.org/install.html
+2. Apache Maven installed. If no, please follow the instructions at - https://maven.apache.org/install.html
 
 3. Change to the root of project directory (wherein the pom.xml is located)
 
