@@ -15,7 +15,11 @@ IDE - Eclipse IDE 2022-23
 
 Browsers - Chrome (tested with version 101.0 64-Bit).
 
-Note: For now, the drivers for Chrome and Firefox were used for tests. With firefox (geckodriver), an open issue exists which impacts the edit flow of a ToDo (content is capitalized). However, no such issue is not with same code for Chrome. So, it is recommended to use Chrome.
+Note: 
+
+a. For now, the drivers for Chrome and Firefox were used for tests. 
+
+b. With firefox (geckodriver), an open issue exists which impacts the edit flow of a ToDo (content is capitalized). However, the issue is not seen with Chrome with same code for Chrome. So, it is recommended to use Chrome until I rever back on the issue.
 
 # How to run the tests?
 1. Clone the below Git project (using GitBash or any preferred approach):
