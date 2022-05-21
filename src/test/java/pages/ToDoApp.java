@@ -1,6 +1,5 @@
 package pages;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -10,6 +9,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
+import common.Driver;
+
+
 public class ToDoApp {
 	WebDriver driver;
 	static final String xpath_todo_create = "//section[@class='todoapp']/header[@class='header']/input";
@@ -18,12 +20,14 @@ public class ToDoApp {
 	static final String xpath_count_text = "//footer//span";
 	static final String xpath_todo_lineitem_all = "//ul[@class='todo-list']/li";
 	static final String xpath_todo_lineitem_specific = "//ul[@class='todo-list']/li[div/label[text()='__TODO__']]";
-	static final String xpath_todo_complete = "//div[label[text()='__TODO__']]//input[@type='checkbox']";
-	static final String xpath_todo_checkboxes = "//input[@type='checkbox' and @class!='toggle-all']";
+	
+	static final String xpath_todo_checkbox_specific = "//div[label[text()='__TODO__']]//input[@type='checkbox']";
+	static final String xpath_todo_checkbox_all = "//input[@type='checkbox' and @class!='toggle-all']";
 	   
 	//Tab XPath, wherein __TAB__ can be: All, Active or Completed.
 	static final String xpath_tab = "//a[text()='__TAB__']";
 	static final String xpath_toggle_all = "//label[@for='toggle-all']";
+	static final String xpath_toggle_all_input = "//input[@class='toggle-all']";
 	
 	static final String xpath_todo_clear_specific = "//li[div/label[text()='__TODO__']]/div/button";  //Clear a ToDo.
 	static final String xpath_todo_clear_all = "//footer/button[contains(text(),'Clear completed')]";  //Clear all ToDo.
@@ -31,26 +35,84 @@ public class ToDoApp {
 	static final String xpath_todo_edit = "//li[div/label[text()='__TODO__']]/input[@type='text']"; //Edit a ToDo
 	static final String xpath_todo_label = "//label[text()='__TODO__']"; //Edit a ToDo
 
-	public ToDoApp(WebDriver driver) {
-		this.driver = driver;
+	public ToDoApp(String application_url, String browser) {
+		WebDriver myDriver = Driver.getDriver(browser);
+		myDriver.navigate().to(application_url);
+		this.driver = myDriver;
+	}
+	
+	public String getApplicationUrl() {
+		return driver.getCurrentUrl();
 	}
 
 	/**
 	 * Create a ToDo.
 	 * 
 	 * @param todo ToDo to be created.
-	 * @return True if success. Else, False.
+	 * @return status true if success. Else, false.
 	 */
 	public boolean createToDo(String todo) {
 		boolean status = false;
-		try {
-			driver.findElement(By.xpath(xpath_todo_create)).sendKeys(todo, Keys.ENTER);
+		try {	
+			if (!tabSwitch("All")) {
+				System.out.println("Switch to tab 'All' failed.");
+				return status;
+			}
+			
+			//Find the initial ToDo count.
+			int toDoCountInitial = driver.findElements(By.xpath(xpath_todo_list)).size();
+			
+			//Enter ToDo.
+			driver.findElement(By.xpath(xpath_todo_create)).sendKeys(todo, Keys.ENTER);			
+			
+			//Confirm creation by ensuring ToDo list is appended with new ToDo.
+			List<WebElement> toDoList = driver.findElements(By.xpath(xpath_todo_list));
+			int toDoCountFinal = toDoList.size();
+
+			if ((toDoCountFinal == toDoCountInitial + 1) && (toDoList.get(toDoCountFinal - 1).getText().equals(todo))) {
+				System.out.println("ToDo is created.");				
+				status = true;
+			} else {
+				System.out.println("ERROR: ToDo creation failed.");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return status;
 	}
-	
+
+	/**
+	 * Validate Items Left
+	 * 
+	 * @return status - true if success. Else, false.
+	 */
+	public boolean validateItemsLeft() {
+		boolean status = false;
+		try {
+			if (!tabSwitch("Active")) {
+				System.out.println("Switch to tab 'Active' failed.");
+				return status;
+			}
+			
+			String footer_text_observed = driver.findElement(By.xpath(xpath_count_text)).getText();
+			int expected_count = driver.findElements(By.xpath(xpath_todo_list)).size();
+			String footer_text_expected = expected_count + " items left";
+			
+			if (expected_count == 1) {
+				footer_text_expected = expected_count + " item left";
+			}
+
+			System.out.format("Observed Footer - [%s], Expected Footer -[%s]", footer_text_observed, footer_text_expected);
+			if (footer_text_observed.equals(footer_text_expected)) {
+				status = true;
+			} else {
+				System.out.println("ERROR: Footer text does not match expectation.");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return status;
+	}
 	
 	/**
 	 * Edit a ToDo.
@@ -60,15 +122,15 @@ public class ToDoApp {
 	 * @param tab Tab to be used.
 	 * @return True if success. Else, False.
 	 */
-	public boolean editToDo(String todo, String newToDo, String tab) {
-		boolean status = false;
+	public String editToDo(String todo, String newToDo, String tab) {
+		String result = "FAILURE";
 		try {
 			Actions actions = new Actions(driver);			
 		    String effective_path_label = xpath_todo_label.replace("__TODO__", todo);
 			List<WebElement> toDoElements = driver.findElements(By.xpath(effective_path_label));
 			if (toDoElements.size() == 0) {
 				System.out.println("ERROR: Todo not found");
-				return status;
+				return result;
 			} 
 			
 			WebElement toDoElement = toDoElements.get(0);
@@ -78,86 +140,35 @@ public class ToDoApp {
 			int todo_count_initial = driver.findElements(By.xpath(xpath_todo_label.replace("__TODO__", newToDo))).size();
 			String effective_path_edit = xpath_todo_edit.replace("__TODO__", todo);
 			toDoElements = driver.findElements(By.xpath(effective_path_edit));
+
 			if (toDoElements.size() == 0) {
 				System.out.println("ERROR: Todo input box not found");
-				return status;
+				return result;
 			} 
 			toDoElement = toDoElements.get(0);
-			System.out.println(newToDo);
-			toDoElement.sendKeys(Keys.HOME, Keys.chord(Keys.SHIFT, Keys.END), Keys.BACK_SPACE);
-			toDoElement.sendKeys(newToDo, Keys.ENTER);
+			toDoElement.sendKeys(Keys.HOME, Keys.chord(Keys.SHIFT, Keys.END), newToDo, Keys.ENTER);
 			sleep(1);
+			
+			List<WebElement> we_list = driver.findElements(By.xpath(xpath_todo_lineitem_specific.replace("__TODO__", newToDo)));
+			String text_status = we_list.get(0).getAttribute("class");
+			System.out.println("Text_Status --> " + text_status);
 			int todo_count_final = driver.findElements(By.xpath(xpath_todo_label.replace("__TODO__", newToDo))).size();
 			if (todo_count_final == todo_count_initial + 1) {
 				System.out.println("ToDo is successfully edited.");
-				status = true;
+				if (text_status.contains("completed")) {
+					result = "completed";
+				} else {
+					result = "active";
+				}
 			} else {
 				System.out.println("ToDo edit failed.");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return status;
+		return result;
 	}
 
-	/**
-	 * Validate a ToDo.
-	 * @param todo     ToDo to be validated.
-	 * @param position Position of the ToDo
-	 * @return True if success. Else, False.
-	 */
-	public boolean validateToDo(String todo, int position) {
-		boolean status = false;
-		try {
-			List<WebElement> todoList = driver.findElements(By.xpath(xpath_todo_list));
-			if (position <= todoList.size()) {
-				System.out.println("Position is valid.");
-				WebElement todo_element = todoList.get(position);
-				if (todo_element.getText().equals(todo)) {
-					System.out.println("Text matches");
-					status = true;
-				} else {
-					System.out
-							.println("Text does not match. Expected " + todo + " but found " + todo_element.getText());
-				}
-			} else {
-				System.out.println("Position is invalid.");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return status;
-	}
-
-	/**
-	 * Validate a ToDo list count.
-	 * 
-	 * @param todo     ToDo to be validated.
-	 * @param position Position of the ToDo
-	 * @return True if success. Else, False.
-	 */
-	public boolean validateToDoCount(int countOfToDoAdded) {
-		boolean status = false;
-		try {
-			List<WebElement> todoList = driver.findElements(By.xpath(xpath_todo_list));
-			String footer_text_observed = driver.findElement(By.xpath(xpath_count_text)).getText();
-			String footer_text_expected = countOfToDoAdded + " items left";
-
-			if (countOfToDoAdded == 1) {
-				footer_text_expected = countOfToDoAdded + " item left";
-			}
-			System.out.println(footer_text_observed);
-			if ((todoList.size() == countOfToDoAdded) && (footer_text_observed.equals(footer_text_expected))) {
-				System.out.println("Footer text matches");
-				status = true;
-			} else {
-				System.out.println("ERROR: Footer text does not match-[" + footer_text_observed + "]");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return status;
-	}
 
 	/**
 	 * Complete a ToDo.
@@ -167,19 +178,22 @@ public class ToDoApp {
 	public boolean completeToDo(String todo) {
 		boolean status = false;
 		try {
-			String effective_xpath = xpath_todo_complete.replace("__TODO__", todo);
+			if (!tabSwitch("All")) {
+				return status;
+			}
+			
+			String effective_xpath = xpath_todo_checkbox_specific.replace("__TODO__", todo);
 			List<WebElement> matched_todo_list = driver.findElements(By.xpath(effective_xpath));
 			if (matched_todo_list.size() == 0) {
-				System.out.println("No ToDo found for the string:" + todo);
+				System.out.format("No ToDo found - %s", todo);
 				return status;
 			}
 			WebElement first_match = matched_todo_list.get(0);
 			if (first_match.isSelected()) {
-				System.out.println("Already completed");
+				System.out.println("WARN: ToDo is already completed. Nothing to do.");
 			} else {
 				first_match.click();
-				sleep(1);
-				first_match = matched_todo_list.get(0);
+				first_match = driver.findElements(By.xpath(effective_xpath)).get(0);
 				if (first_match.isSelected()) {
 					System.out.println("ToDo is now completed");
 					status = true;
@@ -193,14 +207,46 @@ public class ToDoApp {
 		return status;
 	}
 	
+	/** Re-Open a ToDo.
+	 * @param todo ToDo to be completed.
+	 * @return True if success. Else, False.
+	 */
+	public boolean reOpenToDo(String todo) {
+		boolean status = false;
+		try {
+			String effective_xpath = xpath_todo_checkbox_specific.replace("__TODO__", todo);
+			List<WebElement> matched_todo_list = driver.findElements(By.xpath(effective_xpath));
+			if (matched_todo_list.size() == 0) {
+				System.out.println("No ToDo found for the string:" + todo);
+				return status;
+			}
+			WebElement first_match = matched_todo_list.get(0);
+			if (!first_match.isSelected()) {
+				System.out.println("Already active.");
+			} else {
+				first_match.click();
+				sleep(1);
+				first_match =  driver.findElements(By.xpath(effective_xpath)).get(0);
+				if (!first_match.isSelected()) {
+					System.out.println("ToDo is now Active.");
+					status = true;
+				} else {
+					System.out.println("ToDo failed to move to Active.");
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return status;
+	}
 	
 	/**
 	 * Clear a ToDo from the specified tab.
 	 * @param todo ToDo to be cleared.
 	 * @return True if success. Else, False.
 	 */
-	public boolean clearToDo(String todo, String tab) {
-		boolean status = false;
+	public String clearToDo(String todo, String tab) {
+		String status = "FAILURE";
 		try {
 			if (tabSwitch(tab)) {
 				System.out.println("Switch to tab " + tab + ". Proceeding further..");
@@ -210,6 +256,7 @@ public class ToDoApp {
 			}
 			
 			String effective_xpath = xpath_todo_clear_specific.replace("__TODO__", todo);
+			System.out.println("Clear XPATH " + effective_xpath);
 			List<WebElement> matched_todo_list = driver.findElements(By.xpath(effective_xpath));
 			int matched_todo_count_initial = matched_todo_list.size();
 			if (matched_todo_count_initial == 0) {
@@ -217,15 +264,16 @@ public class ToDoApp {
 				return status;
 			}
 			
-			effective_xpath = xpath_todo_complete.replace("__TODO__", todo);
+			effective_xpath = xpath_todo_checkbox_specific.replace("__TODO__", todo);
 			matched_todo_list = driver.findElements(By.xpath(effective_xpath));
-			
 			//Execute clear on the ToDo.
 			WebElement first_match = matched_todo_list.get(0);
+			boolean isCompleted = first_match.isSelected();
 			Actions action = new Actions(driver);
 			action.moveToElement(first_match).perform();			
 			sleep(1);
 			effective_xpath = xpath_todo_clear_specific.replace("__TODO__", todo);
+
 			matched_todo_list = driver.findElements(By.xpath(effective_xpath));
 			first_match = matched_todo_list.get(0);
 			first_match.click();		
@@ -236,7 +284,11 @@ public class ToDoApp {
 			
 			if (matched_todo_count_final == matched_todo_count_initial - 1) {
 				System.out.println("ToDo " + todo + " is cleared successfully.");
-				status = true;
+				if (isCompleted) {
+					status = "completed";
+				} else {
+					status = "active";
+				}
 			} else {
 				System.out.println("ERROR: For ToDo " + todo + ", initial count is " + matched_todo_count_final + " after delete, it is " + matched_todo_count_initial);
 			}
@@ -289,22 +341,23 @@ public class ToDoApp {
 	
 	
 	/**
-	 * Verify Completed Tab is empty.
+	 * Verify Tab is empty.
+	 * @param tab Tab
 	 * @return True if success. Else, False.
 	 */
-	public boolean verifyCompletedTabIsEmpty() {
+	public boolean verifyTabIsEmpty(String tab) {
 		boolean status = false;
 		try {			
-			if (!tabSwitch("Completed")) {
+			if (!tabSwitch(tab)) {
 				return status;
 			} 
 			//Confirm the completed ToDos list is empty.
 			List<WebElement> completed_todo = driver.findElements(By.xpath(xpath_todo_lineitem_all));			
 			if (completed_todo.size() == 0) {
-				System.out.println("Completed ToDo list is empty as expected.");
+				System.out.println(tab + " ToDo list is empty as expected.");
 				status = true;
 			} else {
-				System.out.println("ERROR: Completed ToDo list is not empty while we expected it to be empty.");
+				System.out.println("ERROR: " + tab + " ToDo list is not empty while we expected it to be empty.");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -319,57 +372,66 @@ public class ToDoApp {
 	public boolean completeAllToDo() {
 		boolean status = false;
 		try {
-			driver.findElement(By.xpath(xpath_toggle_all)).click();
-			List<WebElement> todo_list = driver.findElements(By.xpath(xpath_todo_lineitem_all));
-			int todo_list_count = todo_list.size();
-			int todo_completed_count = 0;
-			for (WebElement we : todo_list) {
-				if (we.getAttribute("class").contains("completed")) {
-					todo_completed_count++;
+			if (driver.findElement(By.xpath(xpath_toggle_all_input)).isSelected()) {
+				System.out.println("Toggle element is already set to Completed. Skipping...");
+			} else {
+				driver.findElement(By.xpath(xpath_toggle_all)).click();
+				sleep(1);			
+				List<WebElement> todo_list = driver.findElements(By.xpath(xpath_todo_lineitem_all));
+				int todo_list_count = todo_list.size();
+				int todo_completed_count = 0;
+				for (WebElement todo_elem : todo_list) {
+					if (todo_elem.getAttribute("class").contains("completed")) {
+						todo_completed_count++;
+					}
+				}
+				if (todo_completed_count == todo_list_count) {
+					System.out.println("All itmes in todo are completed.");
+					status = true;
+				} else {
+					System.out.println("ERROR: Total todo count is " + todo_list_count + " while completed count is "
+							+ todo_completed_count);
 				}
 			}
-
-			if (todo_completed_count == todo_list_count) {
-				System.out.println("All itmes in todo are completed.");
-				status = true;
-			} else {
-				System.out.println("ERROR: Total todo count is " + todo_list_count + " while completed count is "
-						+ todo_completed_count);
-			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return status;
 	}
-
+	
 	/**
-	 * Validate a ToDo is completed.
-	 * @param todo ToDo which was completed.
+	 * Open all ToDo items.
 	 * @return True if success. Else, False.
 	 */
-	public boolean validateCompletionOfToDo(String todo) {
+	public boolean reOpenAllToDo() {
 		boolean status = false;
 		try {
-			String effective_xpath = xpath_todo_lineitem_specific.replace("__TODO__", todo);
-			List<WebElement> matched_todo_list = driver.findElements(By.xpath(effective_xpath));
-			if (matched_todo_list.size() == 0) {
-				System.out.println("No ToDo found for the string:" + todo);
-				return status;
-			}
-
-			WebElement first_match = matched_todo_list.get(0);
-			if (first_match.getAttribute("class").contains("completed")) {
-				System.out.println("Text is striked through");
-				status = true;
+			if (!driver.findElement(By.xpath(xpath_toggle_all_input)).isSelected()) {
+				System.out.println("SKIP: Toggle element is not set to All Completed. Open All cannot be executed.");
 			} else {
-				System.out.println("ERROR: Text is not striked through");
+				driver.findElement(By.xpath(xpath_toggle_all)).click();
+				sleep(1);			
+				List<WebElement> todo_list = driver.findElements(By.xpath(xpath_todo_lineitem_all));
+				int todo_completed_count = 0;
+				for (WebElement todo_elem : todo_list) {
+					if (todo_elem.getAttribute("class").contains("completed")) {
+						todo_completed_count++;
+					}
+				}
+				if (todo_completed_count == 0) {
+					System.out.println("All ToDo items are open.");
+					status = true;
+				} else {
+					System.out.println("ERROR: 1 or more ToDo are in Completed. Completed count " + todo_completed_count);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return status;
 	}
+
+
 
 	/**
 	 * Validate basic form.
@@ -402,17 +464,22 @@ public class ToDoApp {
 			String effective_xpath = xpath_tab.replace("__TAB__", tab);
 			WebElement tabElement = driver.findElement(By.xpath(effective_xpath));
 
-			// Click on the tab
-			tabElement.click();
-			sleep(1);
-
-			// Verify we switched to correct tab by checking if it is highlighted.
-			tabElement = driver.findElement(By.xpath(effective_xpath));
-			if (tabElement.getAttribute("class").equals("selected")) {
-				System.out.println("Switched to tab " + tab);
+			if (!tabElement.isDisplayed()) {
+				System.out.println("Tab is not created as apparently no items exist yet.");
 				status = true;
 			} else {
-				System.out.println("ERROR: Failed to switch to tab " + tab);
+				// Click on the tab
+				tabElement.click();
+				sleep(1);
+
+				// Verify we switched to correct tab by checking if it is highlighted.
+				tabElement = driver.findElement(By.xpath(effective_xpath));
+				if (tabElement.getAttribute("class").equals("selected")) {
+					System.out.println("Switched to tab " + tab);
+					status = true;
+				} else {
+					System.out.println("ERROR: Failed to switch to tab " + tab);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -423,60 +490,59 @@ public class ToDoApp {
 	/**
 	 * Validate presence/absence of ToDo items in specified tab.
 	 * 
-	 * @param toDoList List of ToDo to verify.
+	 * @param toDo List of ToDo to verify.
 	 * @param tab      Tab to be verified. Possible options: All, Completed, Active.
 	 * @param verify   Type of verification. Possible options: presence, absence.
 	 * @return True if success. Else, False.
 	 */
-	public List<Boolean> verifyStatusOfToDoInTab(List<String> ToDoList, String tab, String verify) {
-		List<Boolean> status = new ArrayList<>();
+	public boolean verifyStatusOfToDoInTab(String toDo, String tab, String verify, List<String> activeToDoList, List<String> completedToDoList) {
+		boolean status = false;
 		try {
 			// Switch to the required tab
 			if (tabSwitch(tab)) {
 				System.out.println("Switch to tab " + tab + ". Proceeding further..");
 			} else {
 				System.out.println("Switch to tab " + tab + " failed.");
+				return status;
 			}
 
-			for (String toDo : ToDoList) {
-				boolean toDo_status = false;
-				String effective_xpath = xpath_todo_lineitem_specific.replace("__TODO__", toDo);
-				List<WebElement> toDoElements = driver.findElements(By.xpath(effective_xpath));
+			String effective_xpath = xpath_todo_lineitem_specific.replace("__TODO__", toDo);
+			List<WebElement> toDoElements = driver.findElements(By.xpath(effective_xpath));
 
-				if (toDoElements.size() == 0) {
-					if (verify.equals("present")) {
-						System.out.println("ERROR: No ToDo item found while it's presence was expected");
-					} else if (verify.equals("absent")) {
-						System.out.println("No ToDo item found as expected");
-						toDo_status = true;
-					}
+			int expectedCountOfTodo = 0;
+			if (tab.equals("Active")) {
+				expectedCountOfTodo = countOfToDo(activeToDoList, toDo);
+			} else if (tab.equals("Completed")) {
+				expectedCountOfTodo = countOfToDo(completedToDoList, toDo);
+			} else {
+				expectedCountOfTodo = countOfToDo(activeToDoList, toDo) + countOfToDo(completedToDoList, toDo);
+			}
+			System.out.println("Expected count " + expectedCountOfTodo + ", Observed count " + toDoElements.size());
+			if (toDoElements.size() == expectedCountOfTodo) {
+				if (verify.equals("absent")) {
+					status = true;
 				} else {
-					if (verify.equals("absent")) {
-						System.out.println("ERROR: ToDo item found while it's absence was expected");
-					} else {
-						for (WebElement we : toDoElements) {
-							if (we.findElement(By.xpath("./div/label")).getText().equals(toDo)) {
-								System.out.println("Found the ToDo item.");
-
-								// Validate if it is stroked out if tab is completed. Else, it is not striked
-								// out.
-								if (tab.equals("Completed") && we.getAttribute("class").contains("completed")) {
-									System.out.println("ToDo is crossed out");
-									toDo_status = true;
-									break;
-								} else if (tab.equals("Active") && !we.getAttribute("class").contains("completed")) {
-									System.out.println("ToDo is not crossed out");
-									toDo_status = true;
-									break;
-								} else if (tab.equals("All")) {
-									toDo_status = true;
-									break;
-								}
+					for (WebElement we : toDoElements) {
+						if (we.findElement(By.xpath("./div/label")).getText().equals(toDo)) {
+							System.out.println("Found the ToDo item.");
+							// Validate if it is stroked out if tab is completed.
+							if (tab.equals("Completed") && we.getAttribute("class").contains("completed")) {
+								System.out.println("ToDo is crossed out as expected.");
+								status = true;
+								break;
+							} else if (tab.equals("Active") && !we.getAttribute("class").contains("completed")) {
+								System.out.println("ToDo is not crossed out as expected");
+								status = true;
+								break;
+							} else if (tab.equals("All")) {
+								status = true;
+								break;
 							}
 						}
 					}
 				}
-				status.add(toDo_status);
+			} else {
+				System.out.format("ERROR: Count of ToDo observed %d doesnt match with expected", expectedCountOfTodo);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -497,4 +563,24 @@ public class ToDoApp {
 		}
 	}
 
+	/**
+	 * Count of ToDo in list
+	 * @param todoList ToDo List
+	 * @param toDo ToDo to check
+	 * @return count - Count of ToDo in the list
+	 */
+	public int countOfToDo(List<String> todoList, String toDo) {
+		int count = 0;
+		try {
+			for (String s : todoList) {
+				if (s.equals(toDo)) {
+					count++;
+				}
+			}
+		System.out.println("Returned list count " + count);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return count;
+	}
 }
