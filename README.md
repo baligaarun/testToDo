@@ -21,22 +21,6 @@ git clone https://github.com/baligaarun/testToDo.git
 
 2. Apache Maven installed. If no, please follow the instructions at - https://maven.apache.org/install.html
 
-3. Change to the root of project directory (wherein the pom.xml is located)
+3. Change to the root of project directory (wherein the pom.xml is located) and execute: 
 
-Example:
-C:\Users\baligaarun\eclipse-workspace\testToDo>dir
-21-05-2022  11:43    <DIR>          .
-21-05-2022  11:43    <DIR>          ..
-17-05-2022  21:27             1,315 .classpath
-20-05-2022  18:05               560 .project
-20-04-2022  00:43        11,704,320 chromedriver.exe
-06-04-2022  15:53         3,738,640 geckodriver.exe
-20-05-2022  18:10            11,558 LICENSE
-21-05-2022  11:39             2,877 pom.xml
-20-05-2022  18:28               286 README.md
-20-05-2022  18:11    <DIR>          src
-21-05-2022  11:45    <DIR>          target
-
-And execute the tests using build command:
 mvn test
-
