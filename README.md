@@ -23,24 +23,43 @@ Browsers - Chrome (tested with version 101.0 64-Bit).
 
 # How to run the tests?
 
-1. Clone the below Git project (using GitBash or any preferred approach):
-git clone https://github.com/baligaarun/testToDo.git
+1. Apache Maven is installed. If no, please follow the instructions at - https://maven.apache.org/install.html
 
-2. Apache Maven installed. If no, please follow the instructions at - https://maven.apache.org/install.html
+2. Java JDK (preferrably, 1.8) is installed and JAVA_HOME enviroment variable pointing to the path of installation.
 
-3. Update browser driver exe in the root of the project directory. Currently, for testing ease, the following drivers are added in the project folder. Eventually, they should be removed from git project so that end users can add a compatible dirver.
+For setting environment variable, online resources such as below may be referred:
 
-chromedriver.exe --> ChromeDriver 101.0.4951.41 for Chrome version 101. To fetch an alternate version, please check: https://chromedriver.chromium.org/downloads
+https://mkyong.com/java/how-to-set-java_home-on-windows-10/
 
-geckodriver.exe --> geckodriver-v0.31.0-win64. To fetch an alternate version, please check: https://github.com/mozilla/geckodriver/releases
+Presence of the variable can be confirmed by running the below commands on Windows:
 
-4. Change to the root of project directory (wherein the pom.xml is located) and execute: 
+```echo %JAVA_HOME%```   --> for CMD prompt  OR
+
+```echo $JAVA_HOME```    --> for GitBash
+
+3. Clone the below Git project (using GitBash or any preferred approach):
+
+```git clone https://github.com/baligaarun/testToDo.git```
+
+4. In either GitBash or CMD promot, change the directory to the project root. i.e. testToDo (folder which contains the pom.xml is the project root):
+
+```cd testToDo/```
+
+5. Update browser driver exe, if required for different version. *Currently, for testing ease, following drivers are added in the project folder.*
+
+chromedriver.exe --> from ChromeDriver 101.0.4951.41 for Chrome version 101. To fetch an alternate version, please check: https://chromedriver.chromium.org/downloads
+
+geckodriver.exe --> from geckodriver-v0.31.0-win64. To fetch an alternate version, please check: https://github.com/mozilla/geckodriver/releases
+
+Eventually, these would be removed from git project so that end users can add a compatible driver. Also, it is not ideal to retain libraries/exe in the project.
+
+6. Execute: 
 
 ```mvn test```
 
 # Which tests from the potential scenarios are covered? 
 
-For covered cases, the sceanrio code (SCENARIO_X) from the oeprate.feature file is specified for convenience.
+For covered cases, the scenario code (SCENARIO_X) from the operate.feature file is specified for convenience.
 
 **1. Create ToDo flow:**
 
@@ -58,7 +77,7 @@ a. Complete ToDo selectively using checkbox - Execute for atleast 2 of the activ
 
 b. Verify completed content is present only in All and Completed tab. Not in the Active tab. *[Covered by SCENARIO_02]*
 
-c. Complete All ToDo items using the toggle option. *[Covered by SCENARIO_08]*
+c. Complete All ToDo items using the toggle option. Also, verify clear completed button is shown.  *[Covered by SCENARIO_08]*
 
 -----------
 
@@ -72,7 +91,7 @@ a. Edit ToDo by double click. Try from all 3 tabs - All, Active, Completed for d
 
 a. Re-Open ToDo selectively using checkbox - Execute for atleast 2 of the completed items. *[Covered by SCENARIO_04]*
 
-b. Re-Open All ToDo items using the toggle option. *[Covered by SCENARIO_09]*
+b. Re-Open All ToDo items using the toggle option. Also, verify clear completed button is not shown. *[Covered by SCENARIO_09]*
 
 ------------
 
@@ -109,3 +128,5 @@ c. Completed ToDo is crossed out (strikethrough). *[Covered by verifyStatusOfToD
 5. Test by different user accounts (or roles) on the same system.
 
 6. Full list of supported browsers.
+
+7. Code refactoring - Move to logger instead of console prints, add additional driver support, specific parameters such as browser from command line or environment variable etc.
