@@ -11,7 +11,7 @@ Java - JDK 1.8
 
 Maven - 3.8.5
 
-IDE - Eclipse IDE 2022-23 (not mandatory for execution)
+IDE - Eclipse IDE 2022-23 (IDE not mandatory for execution)
 
 Browsers - Chrome (tested with version 101.0 64-Bit).
 
