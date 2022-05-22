@@ -43,6 +43,7 @@ b. Verify created content is present only in All and Active tab. Not in the Comp
 
 c. Validate items left in the footer. *[Covered by SCENARIO_01]*
 
+------------
 
 **2. Complete Todo:**
 
@@ -52,11 +53,13 @@ b. Verify completed content is present only in All and Completed tab. Not in the
 
 c. Complete All ToDo items using the toggle option. *[Covered by SCENARIO_08]*
 
+-----------
 
 **3. Edit Todo:**
 
 a. Edit ToDo by double click. Try from all 3 tabs - All, Active, Completed for different input values. *[Covered by SCENARIO_03]*
 
+-----------
 
 **4. Re-Open Todo:**
 
@@ -64,6 +67,7 @@ a. Re-Open ToDo selectively using checkbox - Execute for atleast 2 of the comple
 
 b. Re-Open All ToDo items using the toggle option. *[Covered by SCENARIO_09]*
 
+------------
 
 **5. Clear Todo:**
 
@@ -71,11 +75,22 @@ a. Clear a ToDo selectively using checkbox - Cover both active and completed ToD
 
 b. Clear all Completed ToDo items using the Clear Completed option. *[Covered by SCENARIO_07]*
 
+-------------
 
-# Which tests from the potential scenarios should be looked in the future?
+**6. User Interface Validation:**
+
+a. Presence of tabs and selective highlighting of a tab upon switching to it. *[Covered by tabSwitch method invoked by most scenarios implicitly]*
+
+b. Default placeholder text for adding ToDo. *[Covered by validateToDoForm method invoked by all scenarios implicitly]*
+
+c. Completed ToDo is crossed out (strikethrough). *[Covered by verifyStatusOfToDoInTab method invoked by most scenarios implicitly]*
+
+------------
+
+# Which potential scenarios should be considered in the future?
 
 1. Does the application have any limitation on the total number of ToDo items? If so, what is the total threshold? 
 
 2. Irrespective of the total threshold above, is there pagination support? If so, what is the page level threshold?
 
-3. Concurrent 
+3. Concurrent user sessions to the application.
