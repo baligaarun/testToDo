@@ -31,28 +31,33 @@ git clone https://github.com/baligaarun/testToDo.git
 
 mvn test
 
-# What tests from the potential scenarios are being executed? 
+# What tests from the potential scenarios are covered? 
 
 For covered cases, the sceanrio code (SCENARIO_X) from the oeprate.feature file is specified for convenience.
 
-**1. Create ToDo flow**:
+**1. Create ToDo flow:**
 
 a. Use variable content - single word, sentence, multiple sentences (atleast 2), duplicate content. *[Covered by SCENARIO_01]*
 
-b. Verify created content is present only in All and Active tab. Not in the Completed tab. {Covered by SCENARIO_01}
+b. Verify created content is present only in All and Active tab. Not in the Completed tab. *[Covered by SCENARIO_01]*
 
-c. Validate items left in the footer. {Covered by SCENARIO_01}
+c. Validate items left in the footer. *[Covered by SCENARIO_01]*
 
-**2. Complete Todo**:
+**2. Complete Todo:**
 
-a. Complete ToDo selectively - Execute for atleast 2 of the completed items. {Covered}
+a. Complete ToDo selectively using checkbox - Execute for atleast 2 of the completed items. *[Covered by SCENARIO_02]*
 
-b. All #DONE
+b. Verify completed content is present only in All and Completed tab. Not in the Active tab. *[Covered by SCENARIO_02]*
 
-4. Edit Todo:
-a. Content - New content, same content, content same as an existing ToDo. #DONE
+c. Complete All ToDo items using the toggle option. *[Covered by SCENARIO_08]*
 
-5. Clear Todo
+**3. Edit Todo:**
+
+a. Edit ToDo by double clicking on an existing ToDo item. Try the operation from 3 tabs - All, Active, Completed for different input values. *[Covered by SCENARIO_03]*
+
+
+**4. Re-Open Todo:**
+
 a. Single  Try atleast 2 items. - #DONE
 b. All (Clear Completed) - #DONE
 
