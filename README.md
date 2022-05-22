@@ -98,3 +98,7 @@ c. Completed ToDo is crossed out (strikethrough). *[Covered by verifyStatusOfToD
 3. Concurrent user sessions to the application.
 
 4. How does the application store the data? E.g. Browser cache, file system etc.
+
+5. Test by different user accounts (or roles) on the same system.
+
+6. Full list of supported browsers.
