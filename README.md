@@ -61,6 +61,8 @@ Eventually, these would be removed from git project so that end users can add a 
 
 For covered cases, the scenario code (SCENARIO_X) from the operate.feature file is specified for convenience.
 
+Feature file for entire project: src/test/resources/todo/operate.feature
+
 **1. Create ToDo flow:**
 
 a. Use variable content - single word, sentence, multiple sentences (atleast 2), duplicate content. *[Covered by SCENARIO_01]*
