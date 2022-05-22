@@ -23,19 +23,24 @@ Browsers - Chrome (tested with version 101.0 64-Bit).
 
 # How to run the tests?
 
-1. Clone the below Git project (using GitBash or any preferred approach):
+1. Apache Maven is installed. If no, please follow the instructions at - https://maven.apache.org/install.html
+
+2. Clone the below Git project (using GitBash or any preferred approach):
 
 ```git clone https://github.com/baligaarun/testToDo.git```
 
-2. Apache Maven installed. If no, please follow the instructions at - https://maven.apache.org/install.html
+3. Change the directory to the project root. i.e. testToDo (folder which contains the pom.xml is the project root)
+```cd testToDo/```
 
-3. Update browser driver exe in the root of the project directory. Currently, for testing ease, the following drivers are added in the project folder. Eventually, they should be removed from git project so that end users can add a compatible dirver.
+4. Update browser driver exe, if required for different version. Currently, for testing ease, following drivers are added in the project folder. 
 
-chromedriver.exe --> ChromeDriver 101.0.4951.41 for Chrome version 101. To fetch an alternate version, please check: https://chromedriver.chromium.org/downloads
+chromedriver.exe --> from ChromeDriver 101.0.4951.41 for Chrome version 101. To fetch an alternate version, please check: https://chromedriver.chromium.org/downloads
 
-geckodriver.exe --> geckodriver-v0.31.0-win64. To fetch an alternate version, please check: https://github.com/mozilla/geckodriver/releases
+geckodriver.exe --> from geckodriver-v0.31.0-win64. To fetch an alternate version, please check: https://github.com/mozilla/geckodriver/releases
 
-4. Change to the root of project directory (wherein the pom.xml is located) and execute: 
+Eventually, these would be removed from git project so that end users can add a compatible driver and also, it is not a good practice to keep such libraries/exe.
+
+4. Execute: 
 
 ```mvn test```
 
@@ -110,3 +115,5 @@ c. Completed ToDo is crossed out (strikethrough). *[Covered by verifyStatusOfToD
 5. Test by different user accounts (or roles) on the same system.
 
 6. Full list of supported browsers.
+
+7. Code refactoring - Move to logger instead of console prints, add additional driver support, specific parameters such as browser from command line or environment variable etc.
