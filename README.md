@@ -31,7 +31,7 @@ git clone https://github.com/baligaarun/testToDo.git
 
 ```mvn test```
 
-# What tests from the potential scenarios are covered? 
+# Which tests from the potential scenarios are covered? 
 
 For covered cases, the sceanrio code (SCENARIO_X) from the oeprate.feature file is specified for convenience.
 
@@ -46,7 +46,7 @@ c. Validate items left in the footer. *[Covered by SCENARIO_01]*
 
 **2. Complete Todo:**
 
-a. Complete ToDo selectively using checkbox - Execute for atleast 2 of the active items. *[Covered by SCENARIO_02]*
+a. Complete ToDo selectively using checkbox - Execute for atleast 2 of the active items. *[Covered by SCENARIO_02, SCENARIO_06]*
 
 b. Verify completed content is present only in All and Completed tab. Not in the Active tab. *[Covered by SCENARIO_02]*
 
@@ -69,8 +69,13 @@ b. Re-Open All ToDo items using the toggle option. *[Covered by SCENARIO_09]*
 
 a. Clear a ToDo selectively using checkbox - Cover both active and completed ToDo items. *[Covered by SCENARIO_05]*
 
-b. Clear all Completed ToDo items using the Clear Completed option.
+b. Clear all Completed ToDo items using the Clear Completed option. *[Covered by SCENARIO_07]*
 
-Future implementation:
-Create Flow:
-b. Large number of todo items. - Any max limit? Scroll bar or pagination?  {Not 
+
+# Which tests from the potential scenarios should be looked in the future?
+
+1. Does the application have any limitation on the total number of ToDo items? If so, what is the total threshold? 
+
+2. Irrespective of the total threshold above, is there pagination support? If so, what is the page level threshold?
+
+3. Concurrent 
