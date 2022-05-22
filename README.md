@@ -22,6 +22,7 @@ Browsers - Chrome (tested with version 101.0 64-Bit).
 *b. With firefox (geckodriver), an open issue exists which impacts the edit flow of a ToDo (content is capitalized). However, the issue is not seen with Chrome with same code for Chrome. So, it is recommended to use Chrome until I revert back on the issue.*
 
 # How to run the tests?
+
 1. Clone the below Git project (using GitBash or any preferred approach):
 git clone https://github.com/baligaarun/testToDo.git
 
