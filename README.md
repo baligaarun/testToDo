@@ -15,7 +15,7 @@ IDE - Eclipse IDE 2022-23
 
 Browsers - Chrome (tested with version 101.0 64-Bit).
 
-*Note: *
+*Note:*
 
 *a. For now, the drivers for Chrome and Firefox were used for tests. *
 
