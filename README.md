@@ -24,7 +24,8 @@ Browsers - Chrome (tested with version 101.0 64-Bit).
 # How to run the tests?
 
 1. Clone the below Git project (using GitBash or any preferred approach):
-git clone https://github.com/baligaarun/testToDo.git
+
+```git clone https://github.com/baligaarun/testToDo.git```
 
 2. Apache Maven installed. If no, please follow the instructions at - https://maven.apache.org/install.html
 
@@ -40,7 +41,7 @@ geckodriver.exe --> geckodriver-v0.31.0-win64. To fetch an alternate version, pl
 
 # Which tests from the potential scenarios are covered? 
 
-For covered cases, the sceanrio code (SCENARIO_X) from the oeprate.feature file is specified for convenience.
+For covered cases, the scenario code (SCENARIO_X) from the operate.feature file is specified for convenience.
 
 **1. Create ToDo flow:**
 
@@ -58,7 +59,7 @@ a. Complete ToDo selectively using checkbox - Execute for atleast 2 of the activ
 
 b. Verify completed content is present only in All and Completed tab. Not in the Active tab. *[Covered by SCENARIO_02]*
 
-c. Complete All ToDo items using the toggle option. *[Covered by SCENARIO_08]*
+c. Complete All ToDo items using the toggle option. Also, verify clear completed button is shown.  *[Covered by SCENARIO_08]*
 
 -----------
 
@@ -72,7 +73,7 @@ a. Edit ToDo by double click. Try from all 3 tabs - All, Active, Completed for d
 
 a. Re-Open ToDo selectively using checkbox - Execute for atleast 2 of the completed items. *[Covered by SCENARIO_04]*
 
-b. Re-Open All ToDo items using the toggle option. *[Covered by SCENARIO_09]*
+b. Re-Open All ToDo items using the toggle option. Also, verify clear completed button is not shown. *[Covered by SCENARIO_09]*
 
 ------------
 
