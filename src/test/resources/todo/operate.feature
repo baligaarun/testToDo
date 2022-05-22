@@ -8,15 +8,15 @@ Scenario Outline: SCENARIO_01 - Create ToDo
 		And Verify <toDo> is "absent" in "Completed" Tab
 		And Verify items left is valid
 	Examples:
-		|toDo      	   |
-		|"wake up"      |
-		|"Brush my teeth"|
-		|"Clean utensils"|
+		|toDo      	      |
+		|"wake up"        |
+		|"Brush my teeth" |
+		|"Clean utensils" |
 		|"Prepare food :)"|
-		|"Eat food!!"|
-		|"Clean utensils"|
+		|"Eat food!!"     |
+		|"Clean utensils" |
 		|"Separate the dry and wet kitchen waste. Accordingly, put the waste into the respective garbage bins."|
-		|"Read books"|
+		|"Read books"     |
 
 Scenario Outline: SCENARIO_02 - Complete ToDo
 	Given Application is launched
@@ -62,7 +62,7 @@ Scenario Outline: SCENARIO_05 - Clear ToDo
 		|toDo      	                |tab        |
 		|"Brush my teeth and bathe" |"All"      |
 		|"Read books"               |"Completed"|
-		|"Eat healthy food!!"       |"Active"   |
+		|"Eat healthy food!!"       |"Active"   |		
 
 Scenario Outline: SCENARIO_06 - Complete ToDo - Repeat
 	Given Application is launched
@@ -72,7 +72,7 @@ Scenario Outline: SCENARIO_06 - Complete ToDo - Repeat
 		And Verify <toDo> is "present" in "Completed" Tab
 	Examples:
 		|toDo      	      |
-		|"Clean utensils" |
+		|"Prepare food :)"|
 		|"wake up!!"      |
 
 Scenario Outline: SCENARIO_07 - All completed ToDo are cleared
@@ -84,8 +84,10 @@ Scenario Outline: SCENARIO_08 - All ToDo are completed
 	Given Application is launched
 	When All ToDo are completed
 	Then Verify "Active" Tab is empty
+		And Verify Clear Completed option is "present"
 		
 Scenario Outline: SCENARIO_09 - All ToDo are re-opened
 	Given Application is launched
 	When All ToDo are re-opened
 	Then Verify "Completed" Tab is empty
+		And Verify Clear Completed option is "absent"

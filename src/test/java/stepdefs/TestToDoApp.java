@@ -40,7 +40,9 @@ public class TestToDoApp {
 		} else {
 			System.out.println("Launching application.");
 			objToDoApp = new ToDoApp(application_url, browser);
-			objToDoApp.validateToDoForm();
+			if(!objToDoApp.validateToDoForm()) {
+				fail("Form validation failed.");
+			}
 		}
 		System.out.println("Application URL --> " + objToDoApp.getApplicationUrl());
 	}
@@ -198,18 +200,32 @@ public class TestToDoApp {
 	 * Verify Items Left count in the footer section is valid.
 	 */
 	@Then("Verify items left is valid")
-	public void verifyItemsLeftIsValid() {
-		if (!objToDoApp.validateItemsLeft()) {
+	public void verify_items_left_is_valid() {
+		if (!objToDoApp.verifyItemsLeft()) {
 			fail("verifyItemsLeftIsValid - Failed");
 		}
 	}
 	
+	/**
+	 * Verify Clear Completed option.
+	 */
+	@Then("Verify Clear Completed option is {string}")
+	public void verify_clear_completed(String status) {
+		boolean result = objToDoApp.verifyPresenceOfClearCompleted();
+		if (result && status.equals("present")) {
+			System.out.println("Clear Completed is present as expected");
+		} else if (!result && status.equals("absent")) {
+			System.out.println("Clear Completed is absent as expected");
+		} else {
+			fail("verify_clear_completed - Failed");
+		}			
+	}
 	/**
 	 * Tear Down to be executed after all tests.
 	 */
 	@AfterAll
     public static void tearDown(){
 		System.out.println("Closing the application");
-		objToDoApp.closeApplication();
+		//objToDoApp.closeApplication();
 	}
 }
