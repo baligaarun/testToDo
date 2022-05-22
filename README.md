@@ -31,7 +31,9 @@ git clone https://github.com/baligaarun/testToDo.git
 
 mvn test
 
-# What tests from the potential scenarios are being executed? If so, please specify the scenario code (SCENARIO_X) from the feature file.
+# What tests from the potential scenarios are being executed? 
+
+For covered cases, the sceanrio code (SCENARIO_X) from the oeprate.feature file is specified for convenience.
 
 **1. Create ToDo flow**:
 
