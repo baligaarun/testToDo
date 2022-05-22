@@ -29,7 +29,7 @@ git clone https://github.com/baligaarun/testToDo.git
 
 3. Change to the root of project directory (wherein the pom.xml is located) and execute: 
 
-mvn test
+```mvn test```
 
 # What tests from the potential scenarios are covered? 
 
@@ -67,9 +67,9 @@ b. Re-Open All ToDo items using the toggle option. *[Covered by SCENARIO_09]*
 
 **5. Clear Todo:**
 
-a. Single - Try atleast 2 items. - #DONE
+a. Clear a ToDo selectively using checkbox - Cover both active and completed ToDo items. *[Covered by SCENARIO_05]*
 
-b. All. - #DONE
+b. Clear all Completed ToDo items using the Clear Completed option.
 
 Future implementation:
 Create Flow:
