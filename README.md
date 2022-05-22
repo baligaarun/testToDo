@@ -25,7 +25,7 @@ Browsers - Chrome (tested with version 101.0 64-Bit).
 
 1. Apache Maven is installed. If no, please follow the instructions at - https://maven.apache.org/install.html
 
-2. Java JDK (preferrably, 1.8) is installed and JAVA_HOME enviroment variable pointing to the path of installation.
+2. Java JDK (preferrably, 1.8) is installed and JAVA_HOME environment variable is set pointing to the path of installation.
 
 For setting environment variable, online resources such as below may be referred:
 
