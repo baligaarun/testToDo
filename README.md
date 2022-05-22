@@ -25,15 +25,27 @@ Browsers - Chrome (tested with version 101.0 64-Bit).
 
 1. Apache Maven is installed. If no, please follow the instructions at - https://maven.apache.org/install.html
 
-2. Clone the below Git project (using GitBash or any preferred approach):
+2. Java JDK (preferrably, 1.8) is installed and JAVA_HOME enviroment variable pointing to the path of installation.
+
+For setting environment variable, online resources such as below may be referred:
+
+https://mkyong.com/java/how-to-set-java_home-on-windows-10/
+
+Presence of the variable can be confirmed by running the below commands on Windows:
+
+```echo %JAVA_HOME%```   --> for CMD prompt  OR
+
+```echo $JAVA_HOME```    --> for GitBash
+
+3. Clone the below Git project (using GitBash or any preferred approach):
 
 ```git clone https://github.com/baligaarun/testToDo.git```
 
-3. Change the directory to the project root. i.e. testToDo (folder which contains the pom.xml is the project root):
+4. In either GitBash or CMD promot, change the directory to the project root. i.e. testToDo (folder which contains the pom.xml is the project root):
 
 ```cd testToDo/```
 
-4. Update browser driver exe, if required for different version. *Currently, for testing ease, following drivers are added in the project folder.*
+5. Update browser driver exe, if required for different version. *Currently, for testing ease, following drivers are added in the project folder.*
 
 chromedriver.exe --> from ChromeDriver 101.0.4951.41 for Chrome version 101. To fetch an alternate version, please check: https://chromedriver.chromium.org/downloads
 
@@ -41,7 +53,7 @@ geckodriver.exe --> from geckodriver-v0.31.0-win64. To fetch an alternate versio
 
 Eventually, these would be removed from git project so that end users can add a compatible driver. Also, it is not ideal to retain libraries/exe in the project.
 
-4. Execute: 
+6. Execute: 
 
 ```mvn test```
 
