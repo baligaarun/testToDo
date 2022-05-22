@@ -55,7 +55,7 @@ c. Complete All ToDo items using the toggle option. *[Covered by SCENARIO_08]*
 
 **3. Edit Todo:**
 
-a. Edit ToDo by double clicking on an existing ToDo item. Try the operation from 3 tabs - All, Active, Completed for different input values. *[Covered by SCENARIO_03]*
+a. Edit ToDo by double click. Try from all 3 tabs - All, Active, Completed for different input values. *[Covered by SCENARIO_03]*
 
 
 **4. Re-Open Todo:**
