@@ -27,7 +27,6 @@ public class Driver {
                     break;
             }
         }
-        //driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         driver.manage().window().maximize();
         System.out.println("Driver returned for " + browser);
         return driver;

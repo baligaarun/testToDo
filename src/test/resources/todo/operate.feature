@@ -1,6 +1,6 @@
 Feature: todo
 
-Scenario Outline: Create ToDo
+Scenario Outline: SCENARIO_01 - Create ToDo
 	Given Application is launched
 	When ToDo <toDo> is created
 	Then Verify <toDo> is "present" in "All" Tab
@@ -18,7 +18,7 @@ Scenario Outline: Create ToDo
 		|"Separate the dry and wet kitchen waste. Accordingly, put the waste into the respective garbage bins."|
 		|"Read books"|
 
-Scenario Outline: Complete ToDo
+Scenario Outline: SCENARIO_02 - Complete ToDo
 	Given Application is launched
 	When ToDo <toDo> is completed
 	Then Verify <toDo> is "present" in "All" Tab
@@ -30,7 +30,7 @@ Scenario Outline: Complete ToDo
 		|"Eat food!!"   |
 		|"Read books"   |
 
-Scenario Outline: Edit ToDo
+Scenario Outline: SCENARIO_03 - Edit ToDo
 	Given Application is launched
 	When ToDo <toDo> is edited to <newToDo> in <tab> Tab
 	Then Verify <newToDo> is "present" in "All" Tab
@@ -41,7 +41,7 @@ Scenario Outline: Edit ToDo
 		|"Brush my teeth" |"Brush my teeth and bathe" |"Active"   |
 		|"Eat food!!"     |"Eat healthy food!!"       |"Completed"|
 		
-Scenario Outline: Re-Open ToDo
+Scenario Outline: SCENARIO_04 - Re-Open ToDo
 	Given Application is launched
 	When ToDo <toDo> is re-opened
 	Then Verify <toDo> is "present" in "All" Tab
@@ -52,7 +52,7 @@ Scenario Outline: Re-Open ToDo
 		|"wake up!!"            |
 		|"Eat healthy food!!"   |
 
-Scenario Outline: Clear ToDo
+Scenario Outline: SCENARIO_05 - Clear ToDo
 	Given Application is launched
 	When ToDo <toDo> is cleared from <tab> Tab
 	Then Verify <toDo> is "absent" in "All" Tab
@@ -64,7 +64,7 @@ Scenario Outline: Clear ToDo
 		|"Read books"               |"Completed"|
 		|"Eat healthy food!!"       |"Active"   |
 
-Scenario Outline: Complete ToDo - Repeat
+Scenario Outline: SCENARIO_06 - Complete ToDo - Repeat
 	Given Application is launched
 	When ToDo <toDo> is completed
 	Then Verify <toDo> is "present" in "All" Tab
@@ -75,17 +75,17 @@ Scenario Outline: Complete ToDo - Repeat
 		|"Clean utensils" |
 		|"wake up!!"      |
 
-Scenario Outline: Clear all completed
+Scenario Outline: SCENARIO_07 - All completed ToDo are cleared
 	Given Application is launched
 	When All Completed ToDo are cleared
 	Then Verify "Completed" Tab is empty
 	
-Scenario Outline: All ToDo are completed
+Scenario Outline: SCENARIO_08 - All ToDo are completed
 	Given Application is launched
 	When All ToDo are completed
 	Then Verify "Active" Tab is empty
 		
-Scenario Outline: All ToDo are re-opened
+Scenario Outline: SCENARIO_09 - All ToDo are re-opened
 	Given Application is launched
 	When All ToDo are re-opened
 	Then Verify "Completed" Tab is empty

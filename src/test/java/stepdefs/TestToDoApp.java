@@ -19,16 +19,17 @@ public class TestToDoApp {
 
 	@Given("Application is launched")
 	public void launch_todo_app() {
+		System.out.println("\n\n###############################\n");
 		System.out.format("Counts: completed_todo_list --> %d, active_todo_list --> %d\n", completed_todo_list.size(), active_todo_list.size());
 		if (objToDoApp != null) {
-			System.out.println("Application is already launched. Re-using it.");
+			System.out.println("Application is already launched. Re-using the session...");
 			objToDoApp.tabSwitch("All");
 		} else {
 			System.out.println("Launching application.");
 			objToDoApp = new ToDoApp(application_url, browser);
 			objToDoApp.validateToDoForm();
 		}
-		System.out.println(objToDoApp.getApplicationUrl());
+		System.out.println("Application URL --> " + objToDoApp.getApplicationUrl());
 	}
 
 	@When("ToDo {string} is created")
