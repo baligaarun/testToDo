@@ -27,7 +27,13 @@ git clone https://github.com/baligaarun/testToDo.git
 
 2. Apache Maven installed. If no, please follow the instructions at - https://maven.apache.org/install.html
 
-3. Change to the root of project directory (wherein the pom.xml is located) and execute: 
+3. Update browser driver exe in the root of the project directory. Currently, for testing ease, the following drivers are added in the project folder. Eventually, they should be removed from git project so that end users can add a compatible dirver.
+
+chromedriver.exe --> ChromeDriver 101.0.4951.41 for Chrome version 101. To fetch an alternate version, please check: https://chromedriver.chromium.org/downloads
+
+geckodriver.exe --> geckodriver-v0.31.0-win64. To fetch an alternate version, please check: https://github.com/mozilla/geckodriver/releases
+
+4. Change to the root of project directory (wherein the pom.xml is located) and execute: 
 
 ```mvn test```
 
