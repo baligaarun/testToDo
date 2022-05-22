@@ -91,6 +91,6 @@ c. Completed ToDo is crossed out (strikethrough). *[Covered by verifyStatusOfToD
 
 1. Does the application have any limitation on the total number of ToDo items? If so, what is the total threshold? 
 
-2. Irrespective of the total threshold above, is there pagination support? If so, what is the page level threshold?
+2. To complement the total threshold above, is there pagination support? If so, what is the page level threshold?
 
 3. Concurrent user sessions to the application.
