@@ -1,5 +1,6 @@
 package stepdefs;
 
+import io.cucumber.java.AfterAll;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import pages.ToDoApp;
@@ -8,15 +9,27 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Cucumber based Step Definitions program containing the tests defined for ToDo Application.
+ * 
+ * @author Arun Baliga (baligaarun@gmail.com)
+ * @since 19.05.2022
+ */
 public class TestToDoApp {
-	//User defined variables. To be eventually moved as arguments in execution environment.
+	// User variables - To be moved as command line arguments in future.
 	static String browser = "chrome";
-	static String application_url = "https://todomvc.com/examples/vue/";	
+	static String application_url = "https://todomvc.com/examples/vue/";
 
+	// Lists tracking the ToDo items in Active and Completed states at any point of time.
 	private static List<String> completed_todo_list = new ArrayList<>();
 	private static List<String> active_todo_list = new ArrayList<>();
+
+	// ToDoApp is the Page Object Model based class containing business logic.
 	private static ToDoApp objToDoApp = null;
 
+	/**
+	 * Launch ToDo Application.
+	 */
 	@Given("Application is launched")
 	public void launch_todo_app() {
 		System.out.println("\n\n###############################\n");
@@ -32,6 +45,11 @@ public class TestToDoApp {
 		System.out.println("Application URL --> " + objToDoApp.getApplicationUrl());
 	}
 
+	/**
+	 * Create ToDo.
+	 * 
+	 * @param toDo - To be parsed from the scenario outline.
+	 */
 	@When("ToDo {string} is created")
 	public void create_a_todo(String toDo) {	
 		if (objToDoApp.createToDo(toDo)) {
@@ -41,6 +59,11 @@ public class TestToDoApp {
 		}
 	}
 
+	/**
+	 * Complete a ToDo.
+	 * 
+	 * @param toDo - To be parsed from scenario outline.
+	 */
 	@When("ToDo {string} is completed")
 	public void complete_a_todo(String toDo) {
 		if (objToDoApp.completeToDo(toDo)) {
@@ -51,6 +74,9 @@ public class TestToDoApp {
 		}
 	}
 
+	/**
+	 * Complete all ToDo (bulk operation)
+	 */
 	@When("All ToDo are completed")
 	public void complete_all_todo() {
 		if (objToDoApp.completeAllToDo()) {
@@ -61,6 +87,11 @@ public class TestToDoApp {
 		}
 	}
 
+	/**
+	 * Re-Open a completed ToDo
+	 * 
+	 * @param toDo - To be parsed from scenario outline.
+	 */
 	@When("ToDo {string} is re-opened")
 	public void reopen_a_todo(String toDo) {
 		if (objToDoApp.reOpenToDo(toDo)) {
@@ -73,6 +104,9 @@ public class TestToDoApp {
 		}
 	}
 	
+	/**
+	 * Re-Open all ToDo (bulk operation)
+	 */
 	@When("All ToDo are re-opened")
 	public void reopen_all_todo() {
 		if (objToDoApp.reOpenAllToDo()) {
@@ -82,6 +116,13 @@ public class TestToDoApp {
 		}
 	}
 
+	/**
+	 * Edit a ToDo (Double Click). Parameters are parsed from scenario outline.
+	 * 
+	 * @param toDo - Existing ToDo.
+	 * @param newToDo - New ToDo
+	 * @param tab - Tab in which the Edit should be done.
+	 */
 	@When("ToDo {string} is edited to {string} in {string} Tab")
 	public void edit_todo(String toDo, String newToDo, String tab) {
 		String result = objToDoApp.editToDo(toDo, newToDo, tab);
@@ -97,6 +138,12 @@ public class TestToDoApp {
 		}
 	}
 
+	/**
+	 * Clear a ToDo (i.e. Delete). Parameters are parsed from scenario outline.
+	 * 
+	 * @param toDo - Existing ToDo.
+	 * @param tab - Tab in which the clear should be done.
+	 */
 	@When("ToDo {string} is cleared from {string} Tab")
 	public void clear_a_todo(String toDo, String tab) {
 		String result = objToDoApp.clearToDo(toDo, tab);
@@ -109,6 +156,9 @@ public class TestToDoApp {
 		}
 	}
 
+	/**
+	 * Clear all completed ToDo (bulk operation)
+	 */
 	@When("All Completed ToDo are cleared")
 	public void clear_all_completed_todo() {
 		if (objToDoApp.clearAllCompletedToDo()) {
@@ -118,6 +168,11 @@ public class TestToDoApp {
 		}
 	}
 
+	/**
+	 * Verify specified tab has no ToDos. Parameters are parsed from scenario outline.
+	 * 
+	 * @param tab - Tab to be verified.
+	 */
 	@Then("Verify {string} Tab is empty")
 	public void verify_tab_is_empty(String tab) {
 		if (!objToDoApp.verifyTabIsEmpty(tab)) {
@@ -125,6 +180,13 @@ public class TestToDoApp {
 		}
 	}
 
+	/**
+	 * Verify status of a ToDo in the specified tab. Parameters are parsed from scenario outline.
+	 * 
+	 * @param toDo - ToDo to be verified.
+	 * @param verify - Type of verification. Possible values - present, absent.
+	 * @param tab - Tab to be used for verification.
+	 */
 	@Then("Verify {string} is {string} in {string} Tab")
 	public void verify_status_of_todo_in_tab(String toDo, String verify, String tab) {
 		if (!objToDoApp.verifyStatusOfToDoInTab(toDo, tab, verify, active_todo_list, completed_todo_list)) {
@@ -132,10 +194,22 @@ public class TestToDoApp {
 		}
 	}
 	
+	/**
+	 * Verify Items Left count in the footer section is valid.
+	 */
 	@Then("Verify items left is valid")
 	public void verifyItemsLeftIsValid() {
 		if (!objToDoApp.validateItemsLeft()) {
 			fail("verifyItemsLeftIsValid - Failed");
 		}
+	}
+	
+	/**
+	 * Tear Down to be executed after all tests.
+	 */
+	@AfterAll
+    public static void tearDown(){
+		System.out.println("Closing the application");
+		objToDoApp.closeApplication();
 	}
 }

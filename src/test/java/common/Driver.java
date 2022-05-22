@@ -1,12 +1,10 @@
 package common;
 
-import java.time.Duration;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-/** Class to create and manager WebDriver instance.
+/** Class to create and manage WebDriver instance.
  */
 public class Driver {
 	static private WebDriver driver;
@@ -34,7 +32,7 @@ public class Driver {
 
     public static void closeDriver(){
         if (driver != null) {
-            driver.close();
+            driver.quit();
             driver = null;
             System.out.println("Driver closed successfully.");
         }

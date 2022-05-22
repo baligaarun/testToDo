@@ -583,4 +583,13 @@ public class ToDoApp {
 		}
 		return count;
 	}
+	
+	/**
+	 * Close the application
+	 * 
+	 * @return
+	 */
+	public void closeApplication() {
+		Driver.closeDriver();
+	}
 }
