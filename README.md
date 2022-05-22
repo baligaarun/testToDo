@@ -43,6 +43,7 @@ b. Verify created content is present only in All and Active tab. Not in the Comp
 
 c. Validate items left in the footer. *[Covered by SCENARIO_01]*
 
+
 **2. Complete Todo:**
 
 a. Complete ToDo selectively using checkbox - Execute for atleast 2 of the completed items. *[Covered by SCENARIO_02]*
@@ -50,6 +51,7 @@ a. Complete ToDo selectively using checkbox - Execute for atleast 2 of the compl
 b. Verify completed content is present only in All and Completed tab. Not in the Active tab. *[Covered by SCENARIO_02]*
 
 c. Complete All ToDo items using the toggle option. *[Covered by SCENARIO_08]*
+
 
 **3. Edit Todo:**
 
