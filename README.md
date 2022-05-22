@@ -46,7 +46,7 @@ c. Validate items left in the footer. *[Covered by SCENARIO_01]*
 
 **2. Complete Todo:**
 
-a. Complete ToDo selectively using checkbox - Execute for atleast 2 of the completed items. *[Covered by SCENARIO_02]*
+a. Complete ToDo selectively using checkbox - Execute for atleast 2 of the active items. *[Covered by SCENARIO_02]*
 
 b. Verify completed content is present only in All and Completed tab. Not in the Active tab. *[Covered by SCENARIO_02]*
 
@@ -60,8 +60,9 @@ a. Edit ToDo by double click. Try from all 3 tabs - All, Active, Completed for d
 
 **4. Re-Open Todo:**
 
-a. Single  Try atleast 2 items. - #DONE
-b. All (Clear Completed) - #DONE
+a. Re-Open ToDo selectively using checkbox - Execute for atleast 2 of the completed items. *[Covered by SCENARIO_04]*
+
+b. Re-Open All ToDo items using the toggle option. *[Covered by SCENARIO_09]*
 
 6. Reopen ToDo
 a. Single - Try atleast 2 items. - #DONE
