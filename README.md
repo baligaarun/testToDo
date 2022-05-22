@@ -29,7 +29,8 @@ Browsers - Chrome (tested with version 101.0 64-Bit).
 
 ```git clone https://github.com/baligaarun/testToDo.git```
 
-3. Change the directory to the project root. i.e. testToDo (folder which contains the pom.xml is the project root)
+3. Change the directory to the project root. i.e. testToDo (folder which contains the pom.xml is the project root):
+
 ```cd testToDo/```
 
 4. Update browser driver exe, if required for different version. Currently, for testing ease, following drivers are added in the project folder. 
