@@ -33,10 +33,12 @@ mvn test
 
 # What tests from the potential scenarios are being executed? If so, please specify the scenario code (SCENARIO_X) from the feature file.
 
-1. [Create ToDo flow]:
+**1. Create ToDo flow**:
 a. Use variable content - single word, sentence, multiple sentences (atleast 2), duplicate content. {Covered by SCENARIO_01}
+
 b. Verify created content is present only in All and Active tab. Not in the Completed tab. {Covered by SCENARIO_01}
-b. Validate items left in the footer. {Covered by SCENARIO_01}
+
+c. Validate items left in the footer. {Covered by SCENARIO_01}
 
 2. [Complete Todo]:
 a. Complete ToDo selectively - Execute for atleast 2 of the completed items. {Covered}
