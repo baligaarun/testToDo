@@ -226,6 +226,6 @@ public class TestToDoApp {
 	@AfterAll
     public static void tearDown(){
 		System.out.println("Closing the application");
-		//objToDoApp.closeApplication();
+		objToDoApp.closeApplication();
 	}
 }
