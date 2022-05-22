@@ -41,7 +41,7 @@ Presence of the variable can be confirmed by running the below commands on Windo
 
 ```git clone https://github.com/baligaarun/testToDo.git```
 
-4. In either GitBash or CMD promot, change the directory to the project root. i.e. testToDo (folder which contains the pom.xml is the project root):
+4. In either GitBash or CMD prompt, change the directory to the project root. i.e. testToDo (folder which contains the pom.xml is the project root):
 
 ```cd testToDo/```
 
@@ -53,7 +53,7 @@ geckodriver.exe --> from geckodriver-v0.31.0-win64. To fetch an alternate versio
 
 Eventually, these would be removed from git project so that end users can add a compatible driver. Also, it is not ideal to retain libraries/exe in the project.
 
-6. Execute: 
+6. In either GitBash or CMD prompt, execute: 
 
 ```mvn test```
 
