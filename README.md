@@ -33,13 +33,13 @@ Browsers - Chrome (tested with version 101.0 64-Bit).
 
 ```cd testToDo/```
 
-4. Update browser driver exe, if required for different version. Currently, for testing ease, following drivers are added in the project folder. 
+4. Update browser driver exe, if required for different version. *Currently, for testing ease, following drivers are added in the project folder.*
 
 chromedriver.exe --> from ChromeDriver 101.0.4951.41 for Chrome version 101. To fetch an alternate version, please check: https://chromedriver.chromium.org/downloads
 
 geckodriver.exe --> from geckodriver-v0.31.0-win64. To fetch an alternate version, please check: https://github.com/mozilla/geckodriver/releases
 
-Eventually, these would be removed from git project so that end users can add a compatible driver and also, it is not a good practice to keep such libraries/exe.
+Eventually, these would be removed from git project so that end users can add a compatible driver. Also, it is not ideal to retain libraries/exe in the project.
 
 4. Execute: 
 
