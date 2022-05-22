@@ -64,8 +64,11 @@ a. Re-Open ToDo selectively using checkbox - Execute for atleast 2 of the comple
 
 b. Re-Open All ToDo items using the toggle option. *[Covered by SCENARIO_09]*
 
-6. Reopen ToDo
+
+**5. Clear Todo:**
+
 a. Single - Try atleast 2 items. - #DONE
+
 b. All. - #DONE
 
 Future implementation:
